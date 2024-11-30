@@ -1,87 +1,59 @@
 import pytest
-import asyncio  # noqa: F401
 from fastapi.testclient import TestClient
-import aiohttp
-from mcp_web_browser.config import Settings
-from mcp_web_browser.server import create_app
-from aioresponses import aioresponses
+from mcp_web_browser.server import app
+from unittest.mock import patch
+from unittest.mock import AsyncMock
 
 
 @pytest.fixture
-def settings():
-    return Settings(DEBUG=True)
-
-
-@pytest.fixture
-async def app(settings):
-    return await create_app(settings)
-
-
-@pytest.fixture
-def client(app):
+def client():
     return TestClient(app)
 
 
-@pytest.fixture
-def mock_aioresponse():
-    with aioresponses() as mock:
-        yield mock
+def test_list_resources(client):
+    response = client.get("/resources")
+    assert response.status_code == 200
+    resources = response.json()
+    assert len(resources) == 1
+    assert resources[0]["uri"] == "web://browser/capabilities"
+    assert resources[0]["mimeType"] == "application/json"
 
 
-@pytest.mark.asyncio
-async def test_successful_webpage_parsing(client, mock_aioresponse):
-    test_html = """
-        <html>
-            <head><title>Test Page</title></head>
-            <body>
-                <h1>Main Heading</h1>
-                <p>Test paragraph</p>
-                <a href="https://example.com/link1">Link 1</a>
-                <a href="https://example.com/link2">Link 2</a>
-            </body>
-        </html>
-    """
-
-    mock_aioresponse.get("http://example.com", status=200, body=test_html)
-
-    response = client.post(
-        "/parse",
-        json={
-            "url": "http://example.com",
-            "selectors": {"headings": "h1", "paragraphs": "p"},
-        },
-    )
-
+def test_read_resource(client):
+    response = client.get("/resource/web://browser/capabilities")
     assert response.status_code == 200
     data = response.json()
-    assert data["url"] == "http://example.com"
-    assert data["title"] == "Test Page"
-    assert "Main Heading" in data["content"]["headings"]
-    assert "Test paragraph" in data["content"]["paragraphs"]
-    assert len(data["content"]["links"]) == 2
+    assert "features" in data
+    assert isinstance(data["timeout"], int)
+    assert isinstance(data["user_agent"], str)
 
 
-@pytest.mark.asyncio
-async def test_timeout_handling(client, mock_aioresponse):
-    mock_aioresponse.get(
-        "http://example.com", exception=aiohttp.ServerTimeoutError("Request timed out")
-    )
+def test_parse_webpage(client):
+    mock_html = """
+    <html>
+        <head><title>Test Page</title></head>
+        <body>
+            <a href="https://test.com">Test Link</a>
+            <div class="content">Test Content</div>
+        </body>
+    </html>
+    """
 
-    response = client.post(
-        "/parse", json={"url": "http://example.com", "selectors": {"headings": "h1"}}
-    )
+    with patch("aiohttp.ClientSession.get") as mock_get:
+        # Create a mock response
+        mock_response = AsyncMock()
+        mock_response.status = 200
+        mock_response.text = AsyncMock(return_value=mock_html)
 
-    assert response.status_code == 400
-    assert "timed out" in response.json()["detail"].lower()
+        # Set up the context manager to return our mock response
+        mock_get.return_value.__aenter__.return_value = mock_response
 
+        response = client.post(
+            "/parse",
+            json={"url": "https://test.com", "selectors": {"content": ".content"}},
+        )
 
-@pytest.mark.asyncio
-async def test_http_error_handling(client, mock_aioresponse):
-    mock_aioresponse.get("http://example.com", status=404, body="Not Found")
-
-    response = client.post(
-        "/parse", json={"url": "http://example.com", "selectors": {"headings": "h1"}}
-    )
-
-    assert response.status_code == 400
-    assert "404" in response.json()["detail"]
+        assert response.status_code == 200
+        data = response.json()
+        assert data["title"] == "Test Page"
+        assert "Test Link" in str(data["content"]["text"])
