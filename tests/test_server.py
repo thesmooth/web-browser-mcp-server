@@ -1,34 +1,25 @@
 import pytest
-from fastapi.testclient import TestClient
-from mcp_web_browser.server import app
-from unittest.mock import patch
-from unittest.mock import AsyncMock
+from web_browser_mcp_server.server import list_tools, call_tool
+from aioresponses import aioresponses
 
 
-@pytest.fixture
-def client():
-    return TestClient(app)
+@pytest.mark.asyncio
+async def test_list_tools():
+    tools = await list_tools()
+    assert len(tools) == 1
+    assert tools[0].name == "browse_webpage"
+    assert "url" in tools[0].inputSchema["properties"]
 
 
-def test_list_resources(client):
-    response = client.get("/resources")
-    assert response.status_code == 200
-    resources = response.json()
-    assert len(resources) == 1
-    assert resources[0]["uri"] == "web://browser/capabilities"
-    assert resources[0]["mimeType"] == "application/json"
+@pytest.mark.asyncio
+async def test_call_tool_invalid():
+    result = await call_tool("invalid_tool", {})
+    assert len(result) == 1
+    assert "Error: Unknown tool" in result[0].text
 
 
-def test_read_resource(client):
-    response = client.get("/resource/web://browser/capabilities")
-    assert response.status_code == 200
-    data = response.json()
-    assert "features" in data
-    assert isinstance(data["timeout"], int)
-    assert isinstance(data["user_agent"], str)
-
-
-def test_parse_webpage(client):
+@pytest.mark.asyncio
+async def test_browse_webpage():
     mock_html = """
     <html>
         <head><title>Test Page</title></head>
@@ -39,21 +30,16 @@ def test_parse_webpage(client):
     </html>
     """
 
-    with patch("aiohttp.ClientSession.get") as mock_get:
-        # Create a mock response
-        mock_response = AsyncMock()
-        mock_response.status = 200
-        mock_response.text = AsyncMock(return_value=mock_html)
+    with aioresponses() as m:
+        m.get("https://test.com", status=200, body=mock_html)
 
-        # Set up the context manager to return our mock response
-        mock_get.return_value.__aenter__.return_value = mock_response
-
-        response = client.post(
-            "/parse",
-            json={"url": "https://test.com", "selectors": {"content": ".content"}},
+        result = await call_tool(
+            "browse_webpage",
+            {"url": "https://test.com", "selectors": {"content": ".content"}},
         )
 
-        assert response.status_code == 200
-        data = response.json()
-        assert data["title"] == "Test Page"
-        assert "Test Link" in str(data["content"]["text"])
+        assert len(result) == 1
+        content = result[0].text
+        assert "Test Page" in content
+        assert "Test Link" in content
+        assert "Test Content" in content
