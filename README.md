@@ -1,110 +1,133 @@
-# Web Intelligence MCP Server
+# 🌐 Web Browser MCP Server
 
-Transform your AI applications with advanced web browsing capabilities. This Model Context Protocol (MCP) server empowers AI systems to intelligently navigate, extract, and analyze web content with precision and reliability.
+[![PyPI version](https://badge.fury.io/py/web-browser-mcp-server.svg)](https://badge.fury.io/py/web-browser-mcp-server)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-## Overview
+> 🤖 Transform your AI applications with powerful web browsing capabilities! Let your AI read and understand the web.
 
-The Web Intelligence MCP server bridges the gap between AI systems and web content, enabling sophisticated web browsing capabilities through a robust, production-ready API. By leveraging the power of BeautifulSoup4 and modern async processing, it provides AI applications with the ability to understand and extract structured information from any webpage.
+## ✨ Features
 
-## Key Features
+- 🎯 **Smart Content Extraction** - Target exactly what you need with CSS selectors
+- ⚡ **Lightning Fast** - Built with async processing for optimal performance
+- 📊 **Rich Metadata** - Capture titles, links, and structured content
+- 🛡️ **Robust & Reliable** - Built-in error handling and timeout management
+- 🌍 **Cross-Platform** - Works everywhere Python runs
 
-The server provides enterprise-grade capabilities for web content processing:
+## 🚀 Quick Start
 
-- Intelligent content extraction with customizable CSS selectors
-- High-performance asynchronous processing
-- Comprehensive metadata capture including titles, links, and structured content
-- Robust error handling and timeout management
-- Production-ready security features
-- Cross-platform compatibility
+### Installation
 
-## Integration with Claude and AI Applications
+Choose your favorite package manager:
 
-Seamlessly integrate web browsing capabilities into your AI workflows by adding this configuration to your `claude_desktop_config.json`:
+```bash
+# Using pip
+pip install web-browser-mcp-server
+
+# Using uv (recommended)
+uv pip install web-browser-mcp-server
+```
+
+### 🔌 Claude Desktop Integration
+
+Add this to your Claude Desktop config to unlock web browsing superpowers:
+
+<details>
+<summary>📝 Click to view configuration</summary>
 
 ```json
 {
-  "mcpServers": {
-    "web-intelligence": {
-      "module": "web-browser-mcp",
-      "env": {
-        "REQUEST_TIMEOUT": "30"
-      }
-    }
-  }
-}
-```
-
-## Enterprise-Ready Features
-
-Our implementation focuses on reliability and security:
-
-- Configurable timeout and retry mechanisms
-- Comprehensive error handling
-- Rate limiting and resource protection
-- Detailed logging and monitoring capabilities
-- Production-grade async processing
-- Cross-origin request security
-
-## API Example
-
-Extract structured content from web pages with precision:
-
-```python
-response = requests.post(
-    "http://localhost:8000/parse",
-    json={
-        "url": "https://example.com",
-        "selectors": {
-            "article_content": "article.main-content",
-            "headlines": "h1.headline",
-            "metadata": ".meta-tags"
+    "mcpServers": {
+        "web-browser-mcp-server": {
+            "command": "uv",
+            "args": [
+                "--directory",
+                "/path/to/web-browser-mcp-server",
+                "run",
+                "web-browser-mcp-server"
+            ],
+            "env": {
+                "REQUEST_TIMEOUT": "30"
+            }
         }
     }
-)
+}
+```
+</details>
 
-structured_content = response.json()
+> 💡 Replace `/path/to/web-browser-mcp-server` with your installation path
+
+## 🎮 Usage Examples
+
+Extract exactly what you need from any webpage:
+
+```python
+# Basic webpage fetch
+result = browse_webpage(url="https://example.com")
+
+# Target specific content with CSS selectors
+result = browse_webpage(
+    url="https://example.com",
+    selectors={
+        "headlines": "h1, h2",
+        "main_content": "article.content",
+        "navigation": "nav a"
+    }
+)
 ```
 
-## Development and Testing
+## ⚙️ Configuration
 
-We maintain high standards for code quality and testing:
+Customize behavior with environment variables:
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `REQUEST_TIMEOUT` | ⏱️ Max request time (seconds) | 30 |
+| `USER_AGENT` | 🕵️ Custom user agent string | Modern Chrome UA |
+| `LOG_LEVEL` | 📝 Logging verbosity | "info" |
+| `MAX_RETRIES` | 🔄 Max retry attempts | 3 |
+
+## 🛠️ Development
+
+Set up your dev environment in seconds:
 
 ```bash
-# Set up development environment
+# Create and activate virtual environment
 uv venv
 source .venv/bin/activate
+
+# Install dev dependencies
 uv pip install -e ".[test]"
 
-# Run comprehensive test suite
+# Run tests
 python -m pytest
 ```
 
-## Security Considerations
+## 🤝 Contributing
 
-The server implements industry-standard security practices:
+Contributions are welcome! Feel free to:
 
-- Input validation and sanitization
-- Secure request handling
-- Timeout controls
-- Rate limiting
-- Error handling without information exposure
+- 🐛 Report bugs
+- 💡 Suggest features
+- 🔧 Submit pull requests
 
-## Production Deployment
+## 📜 License
 
-Deploy with confidence using our production-ready configuration:
-
-```bash
-python -m mcp_web_browser.cli --workers 4 --log-level warning
-```
-
-## Contributing
-
-We welcome contributions that enhance the server's capabilities. Please review our contributing guidelines and code of conduct.
-
-## License
-
-This project is licensed under the MIT License, providing flexibility for both personal and commercial use.
+MIT License - do what you want! See [LICENSE](LICENSE) for details.
 
 ---
 
-*Empower your AI applications with intelligent web browsing capabilities. Start integrating today.*
+<div align="center">
+
+### 🌟 Level Up Your AI with Web Browsing Powers! 🌟
+
+Built for the [Model Context Protocol](https://github.com/anthropics/anthropic-tools) | Made with ❤️ by the MCP Community
+
+<details>
+<summary>🎉 Star us on GitHub!</summary>
+<br>
+If you find this tool useful, consider giving it a star! It helps others discover the project.
+</details>
+
+</div>

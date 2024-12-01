@@ -1,3 +1,17 @@
+"""
+Web Browser MCP Server
+=====================
+
+This module implements an MCP (Message Control Protocol) server that provides web browsing capabilities.
+It allows clients to fetch and parse webpage content using specified CSS selectors.
+
+Key Features:
+- Fetches webpage content with configurable timeout and user agent
+- Extracts basic page information (title, text, links)
+- Supports custom CSS selectors for targeted content extraction
+- Handles various error conditions gracefully
+"""
+
 import aiohttp
 import mcp
 import asyncio
@@ -7,13 +21,19 @@ from .config import Settings
 import mcp.types as types
 from mcp.server import Server, InitializationOptions, NotificationOptions
 
+# Initialize server settings and create server instance
 settings = Settings()
 server = Server(settings.APP_NAME)
 
 
 @server.list_tools()
 async def list_tools() -> List[types.Tool]:
-    """List available web browsing tools."""
+    """
+    List available web browsing tools.
+
+    Returns:
+        List[types.Tool]: A list containing the browse_webpage tool definition
+    """
     return [
         types.Tool(
             name="browse_webpage",
@@ -39,7 +59,24 @@ async def list_tools() -> List[types.Tool]:
 
 @server.call_tool()
 async def call_tool(name: str, arguments: Dict[str, Any]) -> List[types.TextContent]:
-    """Handle tool calls."""
+    """
+    Handle tool calls for web browsing functionality.
+
+    Args:
+        name (str): The name of the tool to call (must be 'browse_webpage')
+        arguments (Dict[str, Any]): Tool arguments including 'url' and optional 'selectors'
+
+    Returns:
+        List[types.TextContent]: The extracted webpage content or error message
+
+    The function performs the following steps:
+    1. Validates the tool name
+    2. Fetches the webpage content with configured timeout and user agent
+    3. Parses the HTML using BeautifulSoup
+    4. Extracts basic page information (title, text, links)
+    5. Applies any provided CSS selectors for specific content
+    6. Handles various error conditions (timeout, HTTP errors, etc.)
+    """
     if name != "browse_webpage":
         return [types.TextContent(type="text", text=f"Error: Unknown tool {name}")]
 
@@ -94,6 +131,10 @@ async def call_tool(name: str, arguments: Dict[str, Any]) -> List[types.TextCont
 
 
 async def main():
+    """
+    Main entry point for the web browser MCP server.
+    Sets up and runs the server using stdin/stdout streams.
+    """
     # Run the server using stdin/stdout streams
     async with mcp.server.stdio.stdio_server() as (read_stream, write_stream):
         await server.run(

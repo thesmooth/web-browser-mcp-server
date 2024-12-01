@@ -1,9 +1,34 @@
+"""
+Configuration Settings for Web Browser MCP Server
+==============================================
+
+This module defines the settings and configuration options for the web browser MCP server
+using pydantic for settings management and validation.
+
+Settings include:
+- Application name and version
+- Logging level
+- User agent string for HTTP requests
+- Request timeout duration
+- Maximum number of retries
+"""
+
 from pydantic_settings import BaseSettings
 from pydantic import ConfigDict
 
 
 class Settings(BaseSettings):
-    """Application settings."""
+    """
+    Application settings class using pydantic_settings.
+
+    Attributes:
+        APP_NAME (str): Name of the application
+        APP_VERSION (str): Current version of the application
+        LOG_LEVEL (str): Logging level (default: "info")
+        USER_AGENT (str): User agent string for HTTP requests
+        REQUEST_TIMEOUT (int): Timeout for HTTP requests in seconds
+        MAX_RETRIES (int): Maximum number of retry attempts for failed requests
+    """
 
     APP_NAME: str = "web-browser-mcp-server"
     APP_VERSION: str = "0.1.2"
