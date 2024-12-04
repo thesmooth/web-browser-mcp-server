@@ -31,7 +31,7 @@ class Settings(BaseSettings):
     """
 
     APP_NAME: str = "web-browser-mcp-server"
-    APP_VERSION: str = "0.1.2"
+    APP_VERSION: str = "0.2.0"
     LOG_LEVEL: str = "info"
     USER_AGENT: str = (
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"

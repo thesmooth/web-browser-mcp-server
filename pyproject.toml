@@ -1,6 +1,6 @@
 [project]
 name = "web-browser-mcp-server"
-version = "0.1.2"
+version = "0.2.0"
 description = "Transform your AI applications with advanced web browsing capabilities through this Model Context Protocol (MCP) server"
 readme = "README.md"
 requires-python = ">=3.11"
