@@ -1,5 +1,6 @@
 # 🌐 Web Browser MCP Server
 
+[![smithery badge](https://smithery.ai/badge/web-browser-mcp-server)](https://smithery.ai/server/web-browser-mcp-server)
 [![PyPI version](https://badge.fury.io/py/web-browser-mcp-server.svg)](https://badge.fury.io/py/web-browser-mcp-server)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
@@ -18,6 +19,14 @@
 ## 🚀 Quick Start
 
 ### Installation
+
+#### Installing via Smithery
+
+To install Web Browser MCP Server for Claude Desktop automatically via [Smithery](https://smithery.ai/server/web-browser-mcp-server):
+
+```bash
+npx -y @smithery/cli install web-browser-mcp-server --client claude
+```
 
 Choose your favorite package manager:
 
