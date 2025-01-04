@@ -4,8 +4,8 @@
 [![PyPI version](https://badge.fury.io/py/web-browser-mcp-server.svg)](https://badge.fury.io/py/web-browser-mcp-server)
 [![Tests](https://github.com/blazickjp/web-browser-mcp-server/actions/workflows/tests.yml/badge.svg)](https://github.com/blazickjp/web-browser-mcp-server/actions/workflows/tests.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Python](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
-
+[![PyPI version](https://badge.fury.io/py/web-browser-mcp-server.svg)](https://badge.fury.io/py/web-browser-mcp-server)
+[![PyPI downloads](https://img.shields.io/pypi/dm/web-browser-mcp-server.svg)](https://pypi.org/project/web-browser-mcp-server/)
 > 🤖 Transform your AI applications with powerful web browsing capabilities! Let your AI read and understand the web.
 
 ## ✨ Features
