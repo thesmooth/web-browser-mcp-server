@@ -1,6 +1,6 @@
 [project]
 name = "web-browser-mcp-server"
-version = "0.2.0"
+version = "0.2.1"
 description = "Transform your AI applications with advanced web browsing capabilities through this Model Context Protocol (MCP) server"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -14,7 +14,7 @@ dependencies = [
     "python-dotenv==1.0.0",
     "pydantic-settings>=2.1.0",
     "click==8.1.7",
-    "mcp>=1.0.0",
+    "mcp>=1.1.2",
 ]
 license = { text = "MIT" }  # Fixed: license needs to be a table with 'text' key
 
@@ -38,7 +38,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/mcp_web_browser"]
+packages = ["src/web_browser_mcp_server"]
 
 [tool.hatch.metadata]
 allow-direct-references = true

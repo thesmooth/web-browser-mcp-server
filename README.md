@@ -2,9 +2,9 @@
 
 [![smithery badge](https://smithery.ai/badge/web-browser-mcp-server)](https://smithery.ai/server/web-browser-mcp-server)
 [![PyPI version](https://badge.fury.io/py/web-browser-mcp-server.svg)](https://badge.fury.io/py/web-browser-mcp-server)
+[![Tests](https://github.com/blazickjp/web-browser-mcp-server/actions/workflows/tests.yml/badge.svg)](https://github.com/blazickjp/web-browser-mcp-server/actions/workflows/tests.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Python](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Python](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
 
 > 🤖 Transform your AI applications with powerful web browsing capabilities! Let your AI read and understand the web.
 
@@ -86,16 +86,6 @@ result = browse_webpage(
 )
 ```
 
-## ⚙️ Configuration
-
-Customize behavior with environment variables:
-
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `REQUEST_TIMEOUT` | ⏱️ Max request time (seconds) | 30 |
-| `USER_AGENT` | 🕵️ Custom user agent string | Modern Chrome UA |
-| `LOG_LEVEL` | 📝 Logging verbosity | "info" |
-| `MAX_RETRIES` | 🔄 Max retry attempts | 3 |
 
 ## 🛠️ Development
 
@@ -131,7 +121,7 @@ MIT License - do what you want! See [LICENSE](LICENSE) for details.
 
 ### 🌟 Level Up Your AI with Web Browsing Powers! 🌟
 
-Built for the [Model Context Protocol](https://github.com/anthropics/anthropic-tools) | Made with ❤️ by the MCP Community
+Built for the [Model Context Protocol](https://github.com/anthropics/anthropic-tools) | Made with ❤️ by Pearl Labs
 
 <details>
 <summary>🎉 Star us on GitHub!</summary>
