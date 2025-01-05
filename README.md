@@ -8,6 +8,8 @@
 [![PyPI downloads](https://img.shields.io/pypi/dm/web-browser-mcp-server.svg)](https://pypi.org/project/web-browser-mcp-server/)
 > 🤖 Transform your AI applications with powerful web browsing capabilities! Let your AI read and understand the web.
 
+<a href="https://glama.ai/mcp/servers/3hphahzvql"><img width="380" height="200" src="https://glama.ai/mcp/servers/3hphahzvql/badge" alt="web-browser-mcp-server MCP server" /></a>
+
 ## ✨ Features
 
 - 🎯 **Smart Content Extraction** - Target exactly what you need with CSS selectors
