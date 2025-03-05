@@ -19,7 +19,8 @@ from bs4 import BeautifulSoup
 from typing import Dict, Any, List
 from .config import Settings
 import mcp.types as types
-from mcp.server import Server, InitializationOptions, NotificationOptions
+from mcp.server import Server, NotificationOptions
+from mcp.server.models import InitializationOptions
 
 # Initialize server settings and create server instance
 settings = Settings()
