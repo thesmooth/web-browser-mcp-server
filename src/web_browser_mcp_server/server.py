@@ -72,7 +72,7 @@ async def call_tool(name: str, arguments: Dict[str, Any]) -> List[types.TextCont
 
     The function performs the following steps:
     1. Validates the tool name
-    2. Fetches the webpage content with configured timeout and user agent
+    2. Fetches the webpage content with configured timeout and user agen
     3. Parses the HTML using BeautifulSoup
     4. Extracts basic page information (title, text, links)
     5. Applies any provided CSS selectors for specific content
