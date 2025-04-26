@@ -38,18 +38,13 @@ async def list_tools() -> List[types.Tool]:
     return [
         types.Tool(
             name="browse_webpage",
-            description="Extract content from a webpage with optional CSS selectors for specific elements",
+            description="You should open web page from search result to confirm your answer. You can do it with tool",
             inputSchema={
                 "type": "object",
                 "properties": {
                     "url": {
                         "type": "string",
                         "description": "The URL of the webpage to browse",
-                    },
-                    "selectors": {
-                        "type": "object",
-                        "additionalProperties": {"type": "string"},
-                        "description": "Optional CSS selectors to extract specific content",
                     },
                 },
                 "required": ["url"],
@@ -72,7 +67,7 @@ async def call_tool(name: str, arguments: Dict[str, Any]) -> List[types.TextCont
 
     The function performs the following steps:
     1. Validates the tool name
-    2. Fetches the webpage content with configured timeout and user agen
+    2. Fetches the webpage content with configured timeout and user agent
     3. Parses the HTML using BeautifulSoup
     4. Extracts basic page information (title, text, links)
     5. Applies any provided CSS selectors for specific content
@@ -82,7 +77,6 @@ async def call_tool(name: str, arguments: Dict[str, Any]) -> List[types.TextCont
         return [types.TextContent(type="text", text=f"Error: Unknown tool {name}")]
 
     url = arguments["url"]
-    selectors = arguments.get("selectors", {})
 
     async with aiohttp.ClientSession() as session:
         try:
@@ -110,12 +104,6 @@ async def call_tool(name: str, arguments: Dict[str, Any]) -> List[types.TextCont
                         for link in soup.find_all("a", href=True)
                     ],
                 }
-
-                # Extract content using provided selectors
-                if selectors:
-                    for key, selector in selectors.items():
-                        elements = soup.select(selector)
-                        result[key] = [elem.get_text(strip=True) for elem in elements]
 
                 return [types.TextContent(type="text", text=str(result))]
 
